@@ -10,13 +10,16 @@ inputs:
     required: true
   deploy_repository:
     description: "The maven repository name to deploy"
-    required: true
+    required: false  # 인증 스킵 시 필요 없으므로 선택 사항으로 변경
+    default: ""
   deploy_username:
     description: "A username to access maven repository"
-    required: true
+    required: false  # 인증 스킵 시 필요 없으므로 선택 사항으로 변경
+    default: ""
   deploy_password:
     description: "A password of a maven repository user"
-    required: true
+    required: false  # 인증 스킵 시 필요 없으므로 선택 사항으로 변경
+    default: ""
   create_prerelease:
     description: "Create a pre release build"
     required: true
@@ -36,7 +39,7 @@ runs:
 
     - name: Setup maven repo
       uses: s4u/maven-settings-action@v3.1.0
-      if: ${{ inputs.perform_deploy == 'true' }}
+      if: ${{ inputs.perform_deploy == 'true' && inputs.deploy_repository != '' && inputs.deploy_username != '' && inputs.deploy_password != '' }}
       with:
         servers: |
           [{
